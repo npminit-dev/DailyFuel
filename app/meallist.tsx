@@ -1,5 +1,4 @@
-import Home from "../components/Home/Home";
-import MealList from "../components/MealList/MealList";
+import Meals from "../components/MealList/MealList";
 import ConsumedContextProvider from "../components/contexts/ConsumedContext";
 import useFonts from "../hooks&tools/useFonts";
 
@@ -8,8 +7,7 @@ export default function Page(): JSX.Element {
 
   return (
     loaded ? 
-      <Home></Home>
+      <Meals></Meals> 
     : <></>
-  );
+  )
 }
-

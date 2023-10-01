@@ -1,25 +1,25 @@
 import { View, Text, StyleSheet, StatusBar } from 'react-native'
-import { useFonts, loadAsync } from 'expo-font'
-import { useEffect } from 'react'
-import { Button, Icon } from '@rneui/themed'
 import Header from './Header'
 import { Link } from 'expo-router'
 import Ionicon from '@expo/vector-icons/Ionicons'
+import { useContext, useEffect, useState } from 'react'
+import useMealList from '../../hooks&tools/useMealList'
+import List from './List'
+import { ConsumedContext } from '../contexts/ConsumedContext'
+import { ScrollView } from 'react-native-gesture-handler'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { TODAY_MEALS_KEY } from '../../hooks&tools/useMealList';
 
 const staticData = {
   name: 'Jorge Dev',
   legend: 'Chasing a dream',
+  target_cal: 2000
 }
 
-Promise.all([
-  loadAsync('Nunito-Sans-EL', '../../assets/fonts/nunito/static/NunitoSans_7pt-ExtraLight.ttf'),
-  loadAsync('Nunito-Sans-M', '../../assets/fonts/nunito/static/NunitoSans_7pt-Medium.ttf'),
-  loadAsync('Nunito-Sans-SB', '../../assets/fonts/nunito/static/NunitoSans_7pt-SemiBold.ttf' )
-])
-  .then(null)
-  .catch(err => console.log(err))
-
 export default function Home(): JSX.Element {
+
+  const [consumed, setConsumed] = useState<number>(0)
+  const { meals, setMeals, removeMeal, addMeal } = useContext(ConsumedContext)
 
   return (
     <View style={styles.homebox}>
@@ -27,18 +27,27 @@ export default function Home(): JSX.Element {
       <Header {...staticData}></Header>
       <View style={styles.addmealbox}>
         <Text style={styles.addmealtext}>ADD MEAL</Text>
-        <Link href="/addmeal" asChild>
+        <Link href={'meallist'} asChild>
           <Ionicon 
             size={35}
             name="add-circle-outline" 
             reverse style={styles.addmealicon}/>
         </Link>
       </View>
+      <View style={styles.consumedmealbox}>
+        <ScrollView>
+        { 
+          Array.isArray(meals) 
+          ? <List delMode={true} list={meals} setMeals={setMeals} removeMeal={removeMeal} addMeal={addMeal}></List> 
+          : <></> 
+        }
+        </ScrollView>
+      </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
   homebox: {
     flex: 1,
     backgroundColor: '#f5f5f5',
@@ -46,18 +55,24 @@ const styles = StyleSheet.create({
     paddingVertical: 10
   },
   addmealbox: {
-    height: 60,
-    marginVertical: 10,
+    height: 50,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd'
   },
   addmealtext: {
-    fontFamily: 'Nunito-Sans-M'
+    fontFamily: 'Nunito-Sans-M',
+    fontSize: 16
   },
   addmealicon: {
-    color: '#4CAF50'
+    color: '#4CAF50',
+  },
+  consumedmealbox: {
+    flex: 1
   }
 })
+

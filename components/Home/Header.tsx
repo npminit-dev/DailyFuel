@@ -1,8 +1,11 @@
 import { Image } from "@rneui/base";
 import { View, Text, StyleSheet } from "react-native";
 import { HeadProps } from "../../types/types";
+import { loadAsync } from "expo-font";
+import useFonts from "../../hooks&tools/useFonts";
 
 export default function Header({ name, legend }: HeadProps): JSX.Element {
+
   return (
     <View style={styles.userdatabox}>
       <View style={styles.usertxtbox}>
@@ -24,11 +27,13 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 60,
     paddingHorizontal: 10,
+    paddingBottom: 5,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    elevation: 1
+    borderBottomColor: '#ddd',
+    borderBottomWidth: 1
   },
   usertxtbox: {
     height: '100%',
