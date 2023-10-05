@@ -20,7 +20,8 @@ export type useMealListType = [
   meals: MealType[]|null|undefined,
   addMeal: (meal: MealType) => void,
   setMeal: Dispatch<SetStateAction<MealType[]>>,
-  removeMeal: (id: string) => void
+  removeMeal: (id: string) => void,
+  setToAsyncStorage: (newMeal: MealType[]) => Promise<boolean>
 ]
 
 export type useMealListProps = {
@@ -54,5 +55,11 @@ export type ConsumedContextProps = {
   addMeal: (meal: MealType) => void,
   setMeals: Dispatch<SetStateAction<MealType[]>>,
   removeMeal: (id: string) => void
+}
+
+export type SearchProps = {
+  meals: MealType[]|null|undefined,
+  setMeals: Dispatch<SetStateAction<MealType[]>>,
+  setToAsyncStorage: (newMeal: MealType[]) => Promise<boolean>
 }
 

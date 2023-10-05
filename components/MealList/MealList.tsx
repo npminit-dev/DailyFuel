@@ -4,16 +4,14 @@ import Ionicon from '@expo/vector-icons/Ionicons'
 import { Button } from '@rneui/themed'
 import { Link } from 'expo-router'
 import useMealList from '../../hooks&tools/useMealList'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AddModal from './AddModal'
 import { ScrollView } from 'react-native-gesture-handler'
 import List from '../Home/List'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { MEALS_KEY } from '../../hooks&tools/useMealList'
-import { useMealListType } from '../../types/types';
+import Search from './Search'
 
 export default function MealList(): JSX.Element {
-  const [meals, addSelectableMeal, setMeals, removeMeal] = useMealList({});
+  const [meals, addSelectableMeal, setMeals, removeMeal, setToAsyncStorage] = useMealList({});
   const [modalVisible, setModalVisible] = useState<boolean>(false)
 
   return (
@@ -30,13 +28,13 @@ export default function MealList(): JSX.Element {
             <Text style={styles.addmeallegend}>ADD NEW</Text>
           </Button>
         </View>
-        <AddModal modalVisible={modalVisible} setModalVisible={setModalVisible} addMeal={addSelectableMeal}></AddModal>
+        <Search meals={meals} setMeals={setMeals} setToAsyncStorage={setToAsyncStorage}></Search>
         <ScrollView>
           <View style={styles.mealsbox}>
             <List list={meals || []} setMeals={setMeals} removeMeal={removeMeal} addMeal={addSelectableMeal}></List>
           </View>
         </ScrollView>
-        
+        <AddModal modalVisible={modalVisible} setModalVisible={setModalVisible} addMeal={addSelectableMeal}></AddModal>
       </View>
     </>
   );

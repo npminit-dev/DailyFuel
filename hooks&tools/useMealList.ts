@@ -26,7 +26,9 @@ export default function useMealList({ consumed }: useMealListProps): useMealList
   }, [])
 
   useEffect(() => {
-    AsyncStorage.setItem(consumed ? TODAY_MEALS_KEY : MEALS_KEY, JSON.stringify(meals) || '[]')
+    (async () => {
+      meals && await AsyncStorage.setItem(consumed ? TODAY_MEALS_KEY : MEALS_KEY, JSON.stringify(meals) || '[]')
+    })();
   }, [meals])
 
   async function addMeal(meal: MealType) {
@@ -53,5 +55,13 @@ export default function useMealList({ consumed }: useMealListProps): useMealList
     } else throw Error('removeMeal only available in "consumed" mode')
   }
 
-  return [meals, addMeal, setMeals, removeMeal]
+  async function setToAsyncStorage(newMeal: MealType[]): Promise<boolean> {
+    return new Promise(async (res, rej) => {
+      AsyncStorage.setItem(consumed ? TODAY_MEALS_KEY : MEALS_KEY, JSON.stringify(newMeal) || '[]')
+        .then(() => res(true))
+        .catch(() => rej(false))
+    })
+  }
+
+  return [meals, addMeal, setMeals, removeMeal, setToAsyncStorage]
 }
