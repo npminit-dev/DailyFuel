@@ -63,3 +63,8 @@ export type SearchProps = {
   setToAsyncStorage: (newMeal: MealType[]) => Promise<boolean>
 }
 
+export type ProgressProps = {
+  cals: number,
+  consumed: number
+}
+

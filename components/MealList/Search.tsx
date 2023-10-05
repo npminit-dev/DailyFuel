@@ -1,7 +1,6 @@
 import { SearchBar } from '@rneui/base'
 import { View } from 'react-native'
-import Ionicon from '@expo/vector-icons/Ionicons';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { MealType, SearchProps } from '../../types/types';
 
 export default function Search({ meals, setMeals, setToAsyncStorage }: SearchProps) {
@@ -31,6 +30,8 @@ export default function Search({ meals, setMeals, setToAsyncStorage }: SearchPro
         defaultValue=''
         onChangeText={(e) => handleChange(e)}
         onCancel={() => console.log('cancelled')}
+        placeholder='Tomato, Steak, Onion'
+        style={{ fontFamily: 'Nunito-Sans-EL' }}
       >
       </SearchBar>
     </View>

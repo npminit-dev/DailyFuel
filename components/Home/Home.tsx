@@ -3,12 +3,10 @@ import Header from './Header'
 import { Link } from 'expo-router'
 import Ionicon from '@expo/vector-icons/Ionicons'
 import { useContext, useEffect, useState } from 'react'
-import useMealList from '../../hooks&tools/useMealList'
 import List from './List'
 import { ConsumedContext } from '../contexts/ConsumedContext'
 import { ScrollView } from 'react-native-gesture-handler'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { TODAY_MEALS_KEY } from '../../hooks&tools/useMealList';
+import Progress from './Progress'
 
 const staticData = {
   name: 'Jorge Dev',
@@ -20,6 +18,18 @@ export default function Home(): JSX.Element {
 
   const [consumed, setConsumed] = useState<number>(0)
   const { meals, setMeals, removeMeal, addMeal } = useContext(ConsumedContext)
+
+  useEffect(() => {
+    let newConsumed = 0
+    if(Array.isArray(meals) && meals.length !== 0) {
+      newConsumed = meals.reduce((acc, curr) => {
+        acc += curr.cal
+        return acc
+      }, 0)
+    }
+    if(newConsumed > 2000) newConsumed = 2000
+    setConsumed(newConsumed)
+  }, [meals])
 
   return (
     <View style={styles.homebox}>
@@ -34,6 +44,7 @@ export default function Home(): JSX.Element {
             reverse style={styles.addmealicon}/>
         </Link>
       </View>
+      <Progress cals={staticData.target_cal} consumed={consumed}></Progress>
       <View style={styles.consumedmealbox}>
         <ScrollView>
         { 
