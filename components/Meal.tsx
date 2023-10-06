@@ -7,7 +7,7 @@ import { useContext } from "react";
 import { ConsumedContext } from "./contexts/ConsumedContext";
 import uuid from 'react-native-uuid';
 
-export default function Meal({ name, grams, cal, date, delMode, id, removeMeal, addMeal }: MealType): JSX.Element {
+export default function Meal({ name, grams, cal, date, delMode, id, removeMeal, addMeal, setStatusProps }: MealType): JSX.Element {
 
   return (
     <Card containerStyle={styles.cardcontainer} wrapperStyle={styles.cardwrapper}>
@@ -27,6 +27,7 @@ export default function Meal({ name, grams, cal, date, delMode, id, removeMeal, 
           size={35}
           onPress={() => {
             removeMeal && removeMeal(id as string)
+            setStatusProps && setStatusProps({ message: `Meal "${name}" removed successfully`, statusType: 'notify' })
           }}
         ></Ionicon> : 
         <Ionicon name='add-circle-outline'
@@ -35,6 +36,7 @@ export default function Meal({ name, grams, cal, date, delMode, id, removeMeal, 
           size={35}
           onPress={() => {
             if(addMeal) addMeal({ name, grams, cal, id: uuid.v4() + '', date: format(new Date(Date.now()), 'dd-MM-uuuu')})
+            setStatusProps && setStatusProps({ message: `Meal "${name}" added successfully`, statusType: 'ok' })
           }}
         ></Ionicon>
         }

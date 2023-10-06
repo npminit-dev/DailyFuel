@@ -1,7 +1,6 @@
-import { createContext, useEffect } from "react";
+import { createContext } from "react";
 import useMealList from "../../hooks&tools/useMealList";
-import { ConsumedContextProps, useMealListProps } from "../../types/types";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { ConsumedContextProps } from "../../types/types";
 
 export const ConsumedContext = createContext<ConsumedContextProps>({
   meals: [],

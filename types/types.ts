@@ -8,7 +8,8 @@ export type MealType = {
   date?: string,
   delMode?: boolean,
   removeMeal?: (id: string) => void,
-  addMeal?: (meal: MealType) => void
+  addMeal?: (meal: MealType) => void,
+  setStatusProps?: Dispatch<SetStateAction<StatusBarProps>>
 }
 
 export type HeadProps = {
@@ -47,7 +48,8 @@ export type ListProps = {
   list: MealType[],
   addMeal: (meal: MealType) => void,
   setMeals: Dispatch<SetStateAction<MealType[]>>,
-  removeMeal: (id: string) => void
+  removeMeal: (id: string) => void,
+  setStatusProps: Dispatch<SetStateAction<StatusBarProps>>
 }
 
 export type ConsumedContextProps = {
@@ -66,5 +68,12 @@ export type SearchProps = {
 export type ProgressProps = {
   cals: number,
   consumed: number
+}
+
+export type StatusType = 'error' | 'notify' | 'ok' | 'none'
+
+export type StatusBarProps = {
+  statusType: StatusType,
+  message: string
 }
 

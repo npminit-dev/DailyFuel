@@ -9,10 +9,13 @@ import AddModal from './AddModal'
 import { ScrollView } from 'react-native-gesture-handler'
 import List from '../Home/List'
 import Search from './Search'
+import { StatusBarProps } from '../../types/types'
+import Notifications from '../Notifications'
 
 export default function MealList(): JSX.Element {
   const [meals, addSelectableMeal, setMeals, removeMeal, setToAsyncStorage] = useMealList({});
   const [modalVisible, setModalVisible] = useState<boolean>(false)
+  const [statusprops, setStatusprops] = useState<StatusBarProps>({ statusType: 'none', message: '' })
 
   return (
     <>
@@ -24,17 +27,36 @@ export default function MealList(): JSX.Element {
               <Text style={styles.addmealbacktext}>Back</Text>
             </Ionicon>
           </Link>
-          <Button radius={10} color={"#86FC8A"} onPress={() => setModalVisible(true)}>
+          <Button
+            radius={10}
+            color={"#86FC8A"}
+            onPress={() => setModalVisible(true)}
+          >
             <Text style={styles.addmeallegend}>ADD NEW</Text>
           </Button>
         </View>
-        <Search meals={meals} setMeals={setMeals} setToAsyncStorage={setToAsyncStorage}></Search>
+        <Search
+          meals={meals}
+          setMeals={setMeals}
+          setToAsyncStorage={setToAsyncStorage}
+        ></Search>
+        <Notifications {...statusprops}></Notifications>
         <ScrollView>
           <View style={styles.mealsbox}>
-            <List list={meals || []} setMeals={setMeals} removeMeal={removeMeal} addMeal={addSelectableMeal}></List>
+            <List
+              list={meals || []}
+              setMeals={setMeals}
+              removeMeal={removeMeal}
+              addMeal={addSelectableMeal}
+              setStatusProps={setStatusprops}
+            ></List>
           </View>
         </ScrollView>
-        <AddModal modalVisible={modalVisible} setModalVisible={setModalVisible} addMeal={addSelectableMeal}></AddModal>
+        <AddModal
+          modalVisible={modalVisible}
+          setModalVisible={setModalVisible}
+          addMeal={addSelectableMeal}
+        ></AddModal>
       </View>
     </>
   );

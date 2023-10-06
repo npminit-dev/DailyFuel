@@ -7,6 +7,9 @@ import List from './List'
 import { ConsumedContext } from '../contexts/ConsumedContext'
 import { ScrollView } from 'react-native-gesture-handler'
 import Progress from './Progress'
+import { format, isToday } from 'date-fns'
+import { MealType, StatusBarProps } from '../../types/types'
+import Notifications from '../Notifications'
 
 const staticData = {
   name: 'Jorge Dev',
@@ -18,6 +21,7 @@ export default function Home(): JSX.Element {
 
   const [consumed, setConsumed] = useState<number>(0)
   const { meals, setMeals, removeMeal, addMeal } = useContext(ConsumedContext)
+  const [statusprops, setStatusprops] = useState<StatusBarProps>({ statusType: 'none', message: '' })
 
   useEffect(() => {
     let newConsumed = 0
@@ -31,27 +35,47 @@ export default function Home(): JSX.Element {
     setConsumed(newConsumed)
   }, [meals])
 
+  const filterTodayMeals = (meals: MealType[]): MealType[] => {
+    return meals.filter((meal, i) => {
+      let dInfo: string[]|number[]|undefined = meal.date?.split('-').reverse()
+      dInfo = dInfo?.map(data => parseInt(data as string))
+      if(Array.isArray(dInfo) && isToday(new Date(dInfo[0], dInfo[1]-1, dInfo[2]))) return true
+      else return false
+    })
+  }
+  
+
   return (
     <View style={styles.homebox}>
       <StatusBar></StatusBar>
       <Header {...staticData}></Header>
       <View style={styles.addmealbox}>
         <Text style={styles.addmealtext}>ADD MEAL</Text>
-        <Link href={'meallist'} asChild>
-          <Ionicon 
+        <Link href={"meallist"} asChild>
+          <Ionicon
             size={35}
-            name="add-circle-outline" 
-            reverse style={styles.addmealicon}/>
+            name="add-circle-outline"
+            reverse
+            style={styles.addmealicon}
+          />
         </Link>
       </View>
+      <Notifications {...statusprops}></Notifications>
       <Progress cals={staticData.target_cal} consumed={consumed}></Progress>
       <View style={styles.consumedmealbox}>
         <ScrollView>
-        { 
-          Array.isArray(meals) 
-          ? <List delMode={true} list={meals} setMeals={setMeals} removeMeal={removeMeal} addMeal={addMeal}></List> 
-          : <></> 
-        }
+          {meals && Array.isArray(meals) ? (
+            <List
+              delMode={true}
+              list={filterTodayMeals(meals)}
+              setMeals={setMeals}
+              removeMeal={removeMeal}
+              addMeal={addMeal}
+              setStatusProps={setStatusprops}
+            ></List>
+          ) : (
+            <></>
+          )}
         </ScrollView>
       </View>
     </View>
