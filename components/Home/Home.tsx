@@ -7,7 +7,7 @@ import List from './List'
 import { ConsumedContext } from '../contexts/ConsumedContext'
 import { ScrollView } from 'react-native-gesture-handler'
 import Progress from './Progress'
-import { format, isToday } from 'date-fns'
+import { isToday } from 'date-fns'
 import { MealType, StatusBarProps } from '../../types/types'
 import Notifications from '../Notifications'
 
@@ -34,6 +34,10 @@ export default function Home(): JSX.Element {
     if(newConsumed > 2000) newConsumed = 2000
     setConsumed(newConsumed)
   }, [meals])
+
+  useEffect(() => {
+    setMeals(meals => filterTodayMeals(meals))
+  }, [])
 
   const filterTodayMeals = (meals: MealType[]): MealType[] => {
     return meals.filter((meal, i) => {
@@ -67,7 +71,7 @@ export default function Home(): JSX.Element {
           {meals && Array.isArray(meals) ? (
             <List
               delMode={true}
-              list={filterTodayMeals(meals)}
+              list={meals}
               setMeals={setMeals}
               removeMeal={removeMeal}
               addMeal={addMeal}

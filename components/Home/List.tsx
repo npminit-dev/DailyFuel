@@ -3,12 +3,12 @@ import { ScrollView } from "react-native-gesture-handler";
 import { ListProps } from "../../types/types";
 import Meal from "../Meal";
 import uuid from 'react-native-uuid';
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ConsumedContext } from "../contexts/ConsumedContext";
 
 export default function List({ delMode, list, removeMeal, addMeal, setStatusProps }: ListProps) {
 
-  const { addMeal: addConsumedMeal } = useContext(ConsumedContext)
+  const { addMeal: addConsumedMeal, meals } = useContext(ConsumedContext)
 
   return (
     <View>

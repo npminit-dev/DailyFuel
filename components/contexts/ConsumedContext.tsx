@@ -1,6 +1,11 @@
-import { createContext } from "react";
-import useMealList from "../../hooks&tools/useMealList";
+import { createContext, useEffect } from "react";
+import useMealList, { TODAY_MEALS_KEY } from "../../hooks&tools/useMealList";
 import { ConsumedContextProps } from "../../types/types";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+/* RECORDAR QUE EXPO-ROUTER ELIMINA EL CONTEXTO EN EL ARCHIVO node_modules/expo-router/app.tsx!!! 
+  ESO NO DEBERIA PASAR EN PRODUCCION
+*/
 
 export const ConsumedContext = createContext<ConsumedContextProps>({
   meals: [],

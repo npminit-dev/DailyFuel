@@ -3,11 +3,9 @@ import { MealType } from "../types/types";
 import Ionicon from '@expo/vector-icons/Ionicons';
 import { Card } from "@rneui/base";
 import { format } from "date-fns";
-import { useContext } from "react";
-import { ConsumedContext } from "./contexts/ConsumedContext";
 import uuid from 'react-native-uuid';
 
-export default function Meal({ name, grams, cal, date, delMode, id, removeMeal, addMeal, setStatusProps }: MealType): JSX.Element {
+export default function Meal({ name, grams, cal, delMode, id, removeMeal, addMeal, setStatusProps }: MealType): JSX.Element {
 
   return (
     <Card containerStyle={styles.cardcontainer} wrapperStyle={styles.cardwrapper}>

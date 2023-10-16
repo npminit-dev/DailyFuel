@@ -31,7 +31,7 @@ export default function useMealList({ consumed }: useMealListProps): useMealList
     })();
   }, [meals])
 
-  async function addMeal(meal: MealType) {
+  function addMeal(meal: MealType) {
     try {
       setMeals(meals => {
         let newmeals = [...meals]
